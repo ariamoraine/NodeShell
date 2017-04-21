@@ -14,11 +14,22 @@ module.exports = {
   ls: () => {
     fs.readdir('.', (err, files) => {
       if (err) throw err;
-      files.forEach((file, index) => {
-        const newLine = index === files.length-1 ? '' : '\n'
-        process.stdout.write(`${file.toString()} ${newLine}`)
-      });
+      // files.forEach((file, index) => {
+      //   const newLine = index === files.length-1 ? '' : '\n'
+      //   process.stdout.write(`${file.toString()} ${newLine}`)
+      // });
+        process.stdout.write(files.join('\n'))
         process.stdout.write('\nWhat can I do for you? ');
     });
-  }
+  },
+
+  echo: (args) => {
+    const output = args.split(' ').map(function (arg) {
+      return (arg[0] === '$' ? process.env[arg.slice(1)] : arg
+      )})
+    .join(' ');
+    process.stdout.write(output);
+    process.stdout.write('\nWhat can I do for you? ');
+    }
+
 };

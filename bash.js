@@ -3,23 +3,16 @@ var commands = require('./commands');
 process.stdout.write('What can I do for you? ');
 
 process.stdin.on('data', function (data) {
-  var cmd = data.toString().trim();
+  const tolkens = data.toString().trim().split(' ');
+  var cmd = tolkens[0];
+  const args = tolkens.slice(1).join(' ')
 
-  // process.stdout.write(`\nWhat? > ` );
-  //console.log(process.env.PWD)
-  //process.stdout.write(process.env.PWD);
-  if (cmd === 'pwd') {
-    commands[cmd]();
-  } else if (cmd === 'date') {
-    commands.date();
-  } else if (cmd === 'ls') {
-    commands.ls();
+  if (commands[cmd]) {
+    commands[cmd](args);
   } else {
     process.stdout.write(`You typed "${cmd}" I don't know what that is.`);
     process.stdout.write('\nWhat can I do for you? ');
   }
-
-  // process.stdout.write('\nWhat can I do for you? ');
 
 });
 
