@@ -1,9 +1,24 @@
+const fs = require('fs');
+
 module.exports = {
-  pwd: function () {
+  pwd: () => {
     process.stdout.write(process.env.PWD);
+    process.stdout.write('\nWhat can I do for you? ');
   },
-  date: function () {
-    const now = new Date(3600000*Math.floor(Date.now()/3600000));
-    process.stdout.write(`${now}`)
+
+  date: () => {
+    process.stdout.write(`${Date()}`);
+    process.stdout.write('\nWhat can I do for you? ');
+  },
+
+  ls: () => {
+    fs.readdir('.', (err, files) => {
+      if (err) throw err;
+      files.forEach((file, index) => {
+        const newLine = index === files.length-1 ? '' : '\n'
+        process.stdout.write(`${file.toString()} ${newLine}`)
+      });
+        process.stdout.write('\nWhat can I do for you? ');
+    });
   }
-}
+};
